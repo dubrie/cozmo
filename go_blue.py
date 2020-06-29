@@ -39,8 +39,7 @@ def do_hail(robot):
 def do_a_spin(robot):
     # turn_in_place takes the quickest path to the provided angle
     # so we need to do 2 180s to complete a full 360 degree spin
-    robot.turn_in_place(degrees(180)).wait_for_completed()
-    robot.turn_in_place(degrees(180)).wait_for_completed()
+    robot.turn_in_place(degrees(360)).wait_for_completed()
 
 def run(sdk_conn):
     '''The run method runs once Cozmo is connected.'''
@@ -52,10 +51,10 @@ def run(sdk_conn):
     image = Image.open("images/block_m.png")
 
     # resize to fit on Cozmo's face screen
-    resized_image = image.resize(cozmo.lcd_face.dimensions(), Image.NEAREST)
+    resized_image = image.resize(cozmo.oled_face.dimensions(), Image.NEAREST)
 
     # convert the image to the format used by the lcd screen
-    face_image = cozmo.lcd_face.convert_image_to_screen_data(resized_image, invert_image=False)
+    face_image = cozmo.oled_face.convert_image_to_screen_data(resized_image, invert_image=False)
     
     do_hail(robot)
 
@@ -74,7 +73,7 @@ def run(sdk_conn):
     do_a_spin(robot)
 
     duration_s = 5.0
-    robot.display_lcd_face_image(face_image, duration_s * 1000.0)
+    robot.display_oled_face_image(face_image, duration_s * 1000.0)
     # Pause for Jabrill Peppers
     time.sleep(duration_s)
 
